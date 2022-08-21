@@ -44,7 +44,7 @@ let bot = new TelegramBot(setting_data.TG_token, {
     }
 });
 
-client监控区
+// client监控区
 
 // 戳一戳
 // client.on("notice.group.poke", function (e) {
@@ -62,9 +62,9 @@ function textEscape(txt) {
     return txt.replaceAll(/[[\]\-\/\\^$*+?.()|{}]/ug, "\\$&");
 }
 
-function oicq2TG(e, chat_id) {
+async function oicq2TG(e, chat_id) {
     if (q2tg[chat_id] == false) return;
-    let msg_to_send = `**${e.sender.nickname}:**\n`;
+    let msg_to_send = `${e.sender.nickname}:\n`;
     for (const txt of e.message) {
         if (typeof txt == 'string') {
             msg_to_send += txt;
@@ -77,14 +77,15 @@ function oicq2TG(e, chat_id) {
             return await bot.sendPhoto(chat_id, txt.url);
         }
     }
-    if (msg_to_send != "") return await bot.sendMessage(chat_id, msg_to_send, {parse_mode: 'Markdown'});
+    if (msg_to_send != "") return await bot.sendMessage(chat_id, msg_to_send);
 }
 
 client.on("message.group", async function(e) {
     try {
         if (rules.QQ[e.group_id] != undefined) {
             console.log(e);
-            history[oicq2TG(e, rules.QQ[e.group_id]).message_id] = e;
+            history[(await oicq2TG(e, rules.QQ[e.group_id])).message_id] = e;
+            console.log(history);
         }
     }
     catch (err) {
@@ -96,7 +97,7 @@ client.on("message.group", async function(e) {
 
 bot.onText(/\/botoff/, msg => {
     q2tg[msg.chat.id] = false;
-    bot.sendMessage(msg.chat.id, '**转发bot关闭**');
+    bot.sendMessage(msg.chat.id, '转发bot关闭');
 })
 
 bot.onText(/\/boton/, msg => {
@@ -106,8 +107,8 @@ bot.onText(/\/boton/, msg => {
 
 bot.on("message", msg => {
     console.log(msg);
-    if(msg.reply_to_message != undefined && msg.text!=undefined) {
-        history[msg.reply_to_message.message_id].reply(msg.text, true);
+    if(msg.reply_to_message != undefined && msg.text!=undefined && history[msg.reply_to_message.message_id] != undefined) {
+        history[msg.reply_to_message.message_id].reply(`${msg.from.first_name}\n` + msg.text, true);
     }
 
 });
