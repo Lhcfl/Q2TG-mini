@@ -17,6 +17,7 @@ const bot_owner = setting_data.bot_owner;
 const client = createClient(setting_data.QQ_account, {platform: 4});
 let q2tg = {};
 let tg2q = {};
+let history = {};
 
 // QQ客户端登录
 client.on("system.online", () => console.log("Logged in!"));
@@ -43,7 +44,7 @@ let bot = new TelegramBot(setting_data.TG_token, {
     }
 });
 
-// client监控区
+client监控区
 
 // 戳一戳
 // client.on("notice.group.poke", function (e) {
@@ -52,7 +53,7 @@ let bot = new TelegramBot(setting_data.TG_token, {
 
 function oicq2TG(e, chat_id) {
     if (q2tg[chat_id] == false) return;
-    let msg_to_send = `**${e.sender.nickname}:**\n`.replace('+','\/+');
+    let msg_to_send = `**${e.sender.nickname}:**\n`;
     for (const txt of e.message) {
         if (typeof txt == 'string') {
             msg_to_send += txt;
@@ -62,17 +63,17 @@ function oicq2TG(e, chat_id) {
         } else if (txt.type == "text") {
             msg_to_send += txt.text;
         } else if (txt.type == "image") {
-            bot.sendPhoto(chat_id, txt.url);
+            return await bot.sendPhoto(chat_id, txt.url);
         }
     }
-    if (msg_to_send != "") bot.sendMessage(chat_id, msg_to_send, {parse_mode: 'Markdown'});
+    if (msg_to_send != "") return await bot.sendMessage(chat_id, msg_to_send, {parse_mode: 'Markdown'});
 }
 
 client.on("message.group", async function(e) {
     try {
         if (rules.QQ[e.group_id] != undefined) {
             console.log(e);
-            oicq2TG(e, rules.QQ[e.group_id]);
+            history[oicq2TG(e, rules.QQ[e.group_id]).message_id] = e;
         }
     }
     catch (err) {
@@ -81,20 +82,21 @@ client.on("message.group", async function(e) {
 })
 
 
-bot.onText("/\/botoff/", msg => {
+
+bot.onText(/\/botoff/, msg => {
     q2tg[msg.chat.id] = false;
-    bot.sendMessage(msg.chat.id, '转发bot关闭');
+    bot.sendMessage(msg.chat.id, '**转发bot关闭**');
 })
 
-bot.onText("/\/boton/", msg => {
+bot.onText(/\/boton/, msg => {
     q2tg[msg.chat.id] = true;
     bot.sendMessage(msg.chat.id, '转发bot打开');
 })
 
 bot.on("message", msg => {
     console.log(msg);
-    if(msg.reply_to_message != undefined) {
-
+    if(msg.reply_to_message != undefined && msg.text!=undefined) {
+        history[msg.reply_to_message.message_id].reply(msg.text, true);
     }
 
 });
