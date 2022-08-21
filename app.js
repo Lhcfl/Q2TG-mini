@@ -108,7 +108,7 @@ bot.onText(/\/boton/, msg => {
 bot.on("message", msg => {
     console.log(msg);
     if(msg.reply_to_message != undefined && msg.text!=undefined && history[msg.reply_to_message.message_id] != undefined) {
-        history[msg.reply_to_message.message_id].reply(`${msg.from.first_name}\n` + msg.text, true);
+        history[msg.reply_to_message.message_id].reply(`${msg.from.first_name}:\n` + msg.text, true);
     }
 
 });
