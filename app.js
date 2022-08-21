@@ -58,7 +58,7 @@ function oicq2TG(e, chat_id) {
             msg_to_send += txt;
         } else if (txt.type == 'at') {
             if (rules.user[txt.qq] != undefined) msg_to_send += `@${rules.user[txt.qq]}`;
-            else msg_to_send += `@${txt.id}`
+            else msg_to_send += `${txt.text}`
         } else if (txt.type == "text") {
             msg_to_send += txt.text;
         } else if (txt.type == "image") {
