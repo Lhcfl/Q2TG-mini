@@ -1,0 +1,19 @@
+{
+  "name": "q2tg",
+  "version": "1.0.0",
+  "description": "A bot for qq to tg",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Lhcfl",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "js-yaml": "^4.1.0",
+    "node-telegram-bot-api": "^0.58.0",
+    "oicq": "^2.3.1",
+    "proxy-agent": "^5.0.0"
+  }
+}

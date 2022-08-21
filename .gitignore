@@ -1,0 +1,5 @@
+rules.json
+package-lock.json
+settings.yml
+/node_modules
+/data
