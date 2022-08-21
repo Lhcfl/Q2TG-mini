@@ -51,6 +51,17 @@ client监控区
 //     bot.sendMessage(msg.chat.id, "");
 // })
 
+/**
+ * Escape special chars in txt with '\', @returns the escaped string
+ *
+ * @param {string} txt - The text to be escaped.
+ *
+ * @returns {string}
+ */
+function textEscape(txt) {
+    return txt.replaceAll(/[[\]\-\/\\^$*+?.()|{}]/ug, "\\$&");
+}
+
 function oicq2TG(e, chat_id) {
     if (q2tg[chat_id] == false) return;
     let msg_to_send = `**${e.sender.nickname}:**\n`;
