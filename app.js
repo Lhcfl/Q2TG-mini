@@ -85,6 +85,7 @@ async function oicq2TG(e, chat_id) {
         } else if (txt.type == "text") {
             msg_to_send += txt.text;
         } else if (txt.type == "image") {
+            bot.sendMessage(chat_id, msg_to_send);
             return await bot.sendPhoto(chat_id, txt.url);
         }
     }
