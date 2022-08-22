@@ -47,9 +47,9 @@ let bot = new TelegramBot(setting_data.TG_token, {
 // client监控区
 
 // 戳一戳
-// client.on("notice.group.poke", function (e) {
-//     bot.sendMessage(msg.chat.id, "");
-// })
+client.on("notice.group.poke", function (e) {
+    bot.sendMessage(rules.QQ[e.group_id], e.action);
+})
 
 /**
  * Escape special chars in txt with '\', @returns the escaped string
@@ -97,18 +97,33 @@ client.on("message.group", async function(e) {
 
 bot.onText(/\/botoff/, msg => {
     q2tg[msg.chat.id] = false;
-    bot.sendMessage(msg.chat.id, '转发bot关闭');
+    try {
+        bot.sendMessage(msg.chat.id, '转发bot关闭');
+    } catch (error) {
+        console.log(error);
+    }
+    
 })
 
 bot.onText(/\/boton/, msg => {
     q2tg[msg.chat.id] = true;
-    bot.sendMessage(msg.chat.id, '转发bot打开');
+    try {
+        bot.sendMessage(msg.chat.id, '转发bot打开');
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 bot.on("message", msg => {
+
     console.log(msg);
-    if(msg.reply_to_message != undefined && msg.text!=undefined && history[msg.reply_to_message.message_id] != undefined) {
-        history[msg.reply_to_message.message_id].reply(`${msg.from.first_name}:\n` + msg.text, true);
+    try {
+        if(msg.reply_to_message != undefined && msg.text!=undefined && history[msg.reply_to_message.message_id] != undefined) {
+            history[msg.reply_to_message.message_id].reply(`${msg.from.first_name}:\n` + msg.text, true);
+        }
+    } catch (error) {
+        console.log(error);
     }
+    
 
 });
