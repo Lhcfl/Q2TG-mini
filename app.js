@@ -64,7 +64,7 @@ function textEscape(txt) {
 
 async function oicq2TG(e, chat_id) {
     if (q2tg[chat_id] == false) return;
-    let msg_to_send = `${e.sender.nickname}:\n`;
+    let msg_to_send = `**${e.sender.nickname}:**\n`;
     for (const txt of e.message) {
         if (typeof txt == 'string') {
             msg_to_send += txt;
@@ -77,7 +77,7 @@ async function oicq2TG(e, chat_id) {
             return await bot.sendPhoto(chat_id, txt.url);
         }
     }
-    if (msg_to_send != "") return await bot.sendMessage(chat_id, msg_to_send);
+    if (msg_to_send != "") return await bot.sendMessage(chat_id, msg_to_send, { 'parse_mode': 'markdown' });
 }
 
 client.on("message.group", async function(e) {
