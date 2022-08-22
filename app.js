@@ -74,7 +74,7 @@ async function oicq2TG(e, chat_id) {
         } else if (txt.type == "text") {
             msg_to_send += txt.text;
         } else if (txt.type == "image") {
-            return await bot.sendPhoto(chat_id, txt.url);
+            return await bot.sendPhoto(chat_id, txt.url, { 'caption': `from **${e.sender.nickname}**`, 'parse_mode': 'markdown' });
         }
     }
     if (msg_to_send != "") return await bot.sendMessage(chat_id, msg_to_send, { 'parse_mode': 'markdown' });
