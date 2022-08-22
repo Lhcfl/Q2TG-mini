@@ -40,7 +40,7 @@ if (setting_data.QRCode){
 let bot = new TelegramBot(setting_data.TG_token, {
     polling: true,
     request: {
-        agent: proxy("http://127.0.0.1:10809")
+        agent: proxy(setting_data.proxy)
     }
 });
 

@@ -1,0 +1,20 @@
+TG_token: 1123124234:XXXXXXXXXXYYYYYYYYSSSSSSSSZZZZZZZZZ
+# tg bot token
+
+QQ_account: 1145141919
+# bot qq号
+
+uin: your_bot_name_Bot
+# tg的bot名
+
+password: qqpassword
+# qq密码
+QRCode: true
+
+# 密码登录还是扫码登陆
+
+bot_owner: Lhc_fl
+# 拥有者的tgid
+
+proxy: "http://127.0.0.1:10809"
+# 用于TG，代理服务器地址
