@@ -48,7 +48,13 @@ let bot = new TelegramBot(setting_data.TG_token, {
 
 // 戳一戳
 client.on("notice.group.poke", function (e) {
-    bot.sendMessage(rules.QQ[e.group_id], e.action);
+    console.log(e);
+    try {
+        bot.sendMessage(rules.QQ[e.group_id], `${e.group.getMemberMap.get(e.operator_id).nickname} ${e.action} ${e.group.getMemberMap.get(e.target_id).nickname} ${e.suffix}`);
+    } catch (err) {
+        console.log(err)
+    }
+    
 })
 
 /**
