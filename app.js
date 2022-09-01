@@ -14,7 +14,7 @@ let { createClient, segment } = oicq;
 
 // 变量区
 const bot_owner = setting_data.bot_owner;
-const client = createClient(setting_data.QQ_account, {platform: 4});
+const client = createClient(setting_data.QQ_account, {platform: 2});
 let q2tg = {};
 let tg2q = {};
 let history = {};
@@ -85,8 +85,7 @@ async function oicq2TG(e, chat_id) {
         } else if (txt.type == "text") {
             msg_to_send += txt.text;
         } else if (txt.type == "image") {
-            bot.sendMessage(chat_id, msg_to_send);
-            return await bot.sendPhoto(chat_id, txt.url);
+            return await bot.sendPhoto(chat_id, txt.url, {caption: msg_to_send});
         }
     }
     if (msg_to_send != "") return await bot.sendMessage(chat_id, msg_to_send);
